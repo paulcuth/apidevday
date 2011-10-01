@@ -104,29 +104,33 @@
     }
     
     if(changed){
-      var radius = getRadius();
-      NESTORIA.request_avg([last_lat, last_lng], (radius / 4) + 'km', function(data){
+      var radius = getRadius(),
+      coords = [last_lat, last_lng];
+      NESTORIA.request_avg(coords, (radius / 4) + 'km', function(data){
         // Get average
-        
+  
         var buyData = NESTORIA.get_avgs(true),
         	rentData = NESTORIA.get_avgs(false);
 
-		for (var i in buyData) {
-			var bedData = buyData[i];			
-			$('#buy-' + i + ' .sparkline').sparkline (bedData, { width: 80 });
-			$('#buy-' + i + ' .price').html ('&#163;' + Math.round (bedData[0] / 1000) + 'k');
-		}
-			
-		for (var i in rentData) {
-			var bedData = rentData[i];			
-			$('#rent-' + i + ' .sparkline').sparkline (bedData, { width: 80 });
-			$('#rent-' + i + ' .price').html ('&#163;' + bedData[0] + '<span class="unit">pcm</span>');
-		}
-			
+      	for (var i in buyData) {
+      		var bedData = buyData[i];			
+      		$('#buy-' + i + ' .sparkline').sparkline (bedData, { width: 80 });
+      		$('#buy-' + i + ' .price').html ('&#163;' + Math.round (bedData[0] / 1000) + 'k');
+      	}
 
+      	for (var i in rentData) {
+      		var bedData = rentData[i];			
+      		$('#rent-' + i + ' .sparkline').sparkline (bedData, { width: 80 });
+      		$('#rent-' + i + ' .price').html ('&#163;' + bedData[0] + '<span class="unit">pcm</span>');
+      	}
+      });
+      
+      console.log(FOURSQ.token);
+      if(FOURSQ.token){
+        FOURSQ.request_venues(coords);
+      }
+    }  
 
-      })
-    }
 	}
 
 	init ();
