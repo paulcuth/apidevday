@@ -38,6 +38,19 @@
 		  getData();
 		  drawRadius();
 		})
+
+
+        
+        $('#lightbox').click (function () {
+            $(this).hide ();
+            $('#lightbox p').empty ();
+        });
+        
+        $('#lightbox p').click (function (e) {
+            e.stopPropagation ();
+        });
+        
+
 		
 		getData();
 	  drawRadius();
@@ -163,6 +176,17 @@
     }  
 
 	}
+
+
+
+    function showPhotos (urls) {
+        $(urls).each (function (index, url) {
+            $('<img>').attr ({ src: url }).appendTo ('#lightbox p');
+        });
+        
+        $('#lightbox').show ();
+    };
+
 
 	init ();
 	
