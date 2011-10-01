@@ -1,6 +1,6 @@
-
-
 (function () {
+	
+	var last_lat, last_lng;
 	
 	function init () {
 		var lat = sessionStorage? sessionStorage['lat'] || 51.497977 : 51.497977,
@@ -34,9 +34,31 @@
 		}
 	}
 
+  function narrowCoord(coord) {
+    return Math.round(coord * 1000) / 1000;
+  }
 
 	function getData (lat, lng) {
-		$('#data').text (lat + ', ' + lng);
+	  var changed = false;
+    lat = narrowCoord(lat);
+    lng = narrowCoord(lng);
+    
+    if(last_lat !== lat){
+      last_lat = lat;
+      changed = true;
+    }
+    if(last_lng !== lng){
+      last_lng = lng;
+      changed = true;
+    }
+    
+    if(changed){
+      NESTORIA.get_avg([last_lat, last_lng], function(data){
+        console.log(data);
+      })
+    }
+
+		$('#data').text (last_lat + ', ' + last_lng);
 	}
 	
 
