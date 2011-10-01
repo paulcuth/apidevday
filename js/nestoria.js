@@ -31,13 +31,16 @@ window.NESTORIA = (function($){
     if(latest_data !== undefined) {
       var metadata = _.filter(latest_data.response.metadata, function(element){
         return buy ? element.listing_type === 'buy' : element.listing_type !== 'buy';
-      }), result = [];
+      }), result = {};
       _.each(metadata, function(element){
         var avgs = element.data,
         avgs_values = _.values(avgs),
         avgs_length = avgs_values.length,
-        avg_price = avgs_values[avgs_length - 1].avg_price;
-        result[result.length] = parseInt(avg_price, 10);
+        avg_prices = [];
+        _.each(element.data, function(bed_element){
+          avg_prices[avg_prices.length] = parseInt(bed_element.avg_price);
+        });
+        result[element.num_beds] = avg_prices;
       });
       return result;
     }
