@@ -2,7 +2,8 @@
 	
 	var last_lat = 51.497, 
 	last_lng = -0.122,
-	map;
+	map,
+	radius_overlay;
 	
 	function init () {
 		var lat = sessionStorage? sessionStorage['lat'] || 51.497977 : 51.497977,
@@ -25,6 +26,9 @@
 		google.maps.event.addListener (map, 'dragend', function () {
 			var c = map.getCenter ();
 			saveMapPoint (c.lat (), c.lng ());
+			
+			// Draw circle overlay for the radius
+			drawRadius();
 		});
 
 		var c = map.getCenter ();
@@ -55,8 +59,25 @@
     return Math.round(coord * 1000) / 1000;
   }
 
+  function drawRadius(){
+    if(radius_overlay){
+      radius_overlay.setMap(null);
+    }
+    var options = {
+      strokeColor: "#FF0000",
+      strokeOpacity: 0.8,
+      strokeWeight: 2,
+      fillColor: "hotpink",
+      fillOpacity: 0.35,
+      map: map,
+      center: map.getCenter(),
+      radius: getRadius() * 1000
+    };
+    radius_overlay = new google.maps.Circle(options);
+    radius_overlay.setMap(map);
+  }
 
-	function getData (lat, lng, radius) {
+	function getData(lat, lng) {
 	  var changed = false;
     lat = narrowCoord(lat);
     lng = narrowCoord(lng);
