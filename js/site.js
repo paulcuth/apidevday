@@ -107,7 +107,13 @@
           map: map, 
           title:"Hello World!"
       });
+      
+      google.maps.event.addListener(marker, 'click', function(){
+		showPhotos (lightbox_links);
+      });
+      
       markers[markers.length] = coords;
+      
     }
   }
 
@@ -165,6 +171,7 @@
                     links[links.length] = pic.url;
                   });
                 });
+
                 console.log(links);
                 
                 addMarker(ven.location.lat, ven.location.lng, links);
