@@ -1,7 +1,8 @@
 (function () {
 	
-	var last_lat, last_lng,
-		map;
+	var last_lat = 51.497, 
+	last_lng = -0.122,
+	map;
 	
 	function init () {
 		var lat = sessionStorage? sessionStorage['lat'] || 51.497977 : 51.497977,
@@ -18,14 +19,18 @@
 		
 		google.maps.event.addListener (map, 'drag', function () {
 			var c = map.getCenter ();
-			getData (Math.floor (c.lat () * 1000000) / 1000000, Math.floor (c.lng () * 1000000) / 1000000, getRadius ());
+			getData (Math.floor (c.lat () * 1000000) / 1000000, Math.floor (c.lng () * 1000000) / 1000000);
 		});
 		 
 		google.maps.event.addListener (map, 'dragend', function () {
 			var c = map.getCenter ();
 			saveMapPoint (c.lat (), c.lng ());
 		});
-
+		
+		google.maps.event.addListener(map, 'zoom_changed', function(){
+		  console.log('zoom changed');
+		  getData();
+		})
 	}
 	
 	
@@ -47,32 +52,35 @@
     return Math.round(coord * 1000) / 1000;
   }
 
-	function getData (lat, lng) {
+	function getData(lat, lng) {
 	  var changed = false;
     lat = narrowCoord(lat);
     lng = narrowCoord(lng);
     
-    if(last_lat !== lat){
-      last_lat = lat;
-      changed = true;
-    }
-    if(last_lng !== lng){
-      last_lng = lng;
-      changed = true;
+    if(!lat){
+  	  last_lat = 51.497; 
+    	last_lng = -0.122;
+	    changed = true;
+    } else {
+      if(last_lat !== lat){
+        last_lat = lat;
+        changed = true;
+      }
+      if(last_lng !== lng){
+        last_lng = lng;
+        changed = true;
+      }  
     }
     
     if(changed){
-      NESTORIA.request_avg([last_lat, last_lng], '10km', function(data){
+      NESTORIA.request_avg([last_lat, last_lng], getRadius() + 'km', function(data){
         // Get average
+        
         console.log(NESTORIA.get_avgs(false));
       })
     }
-
-		$('#data').text (last_lat + ', ' + last_lng);
 	}
-	
 
 	init ();
-		
 	
 })();
