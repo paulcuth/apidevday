@@ -9,10 +9,10 @@ window.FOURSQ = (function($){
   token = (function(){
     var href = window.location.href,
     query;
-    href = href.split('?');
+    href = href.split('#');
     if(href.length > 0){
       query = href[1].split('=');
-      return query[0];
+      return query[1];
     } else {
       return 'nope';
     }
@@ -24,4 +24,4 @@ window.FOURSQ = (function($){
     token: token
   };
   
-})($);
+})(jQuery);
