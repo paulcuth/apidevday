@@ -1,2 +1,27 @@
 
 
+#data {
+	position: relative;
+	height: 100px;
+	-webkit-box-shadow: 0 0 10px 5px rgba(0,0,0,.2);
+	-moz-box-shadow: 0 0 10px 5px rgba(0,0,0,.2);
+	-o-box-shadow: 0 0 10px 5px rgba(0,0,0,.2);
+	box-shadow: 0 0 10px 5px rgba(0,0,0,.2);
+
+	font-family: Georgia;
+	color: #444;
+	font-size: 16pt;
+	padding: 4px 8px;
+}
+
+
+td {
+	width: 150px;
+	height: 30px;
+}
+
+
+th {
+	color: #444;
+}
+

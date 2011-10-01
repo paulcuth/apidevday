@@ -12,13 +12,13 @@
 				center: loc,
 				mapTypeId: google.maps.MapTypeId.ROADMAP
 			},
-			mapWrap = $('#map').height ($(document).height () - 150)[0];
+			mapWrap = $('#map').height ($(document).height () - 100)[0];
 			
 		map = new google.maps.Map (mapWrap, opts);
 		
 		google.maps.event.addListener (map, 'drag', function () {
 			var c = map.getCenter ();
-			getData (Math.floor (c.lat () * 1000000) / 1000000, Math.floor (c.lng () * 1000000) / 1000000, getRadius ());
+			getData (c.lat (), c.lng (), getRadius ());
 		});
 		 
 		google.maps.event.addListener (map, 'dragend', function () {
@@ -26,6 +26,8 @@
 			saveMapPoint (c.lat (), c.lng ());
 		});
 
+		var c = map.getCenter ();
+		getData (c.lat (), c.lng (), getRadius ());
 	}
 	
 	
@@ -47,7 +49,7 @@
     return Math.round(coord * 1000) / 1000;
   }
 
-	function getData (lat, lng) {
+	function getData (lat, lng, radius) {
 	  var changed = false;
     lat = narrowCoord(lat);
     lng = narrowCoord(lng);
@@ -68,7 +70,7 @@
       })
     }
 
-		$('#data').text (last_lat + ', ' + last_lng);
+		//$('#data').text (last_lat + ', ' + last_lng);
 	}
 	
 

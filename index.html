@@ -6,7 +6,36 @@
 	
 	<body>
 		<div id="map"></div>
-		<div id="data"></div>
+		<div id="data">
+			<table>
+				<tbody>
+					<tr>
+						<th></th>
+						<th>1 bed</th>
+						<th>2 bed</th>
+						<th>3 bed</th>
+						<th>4 bed</th>
+					</tr>
+					
+					<tr>
+						<th>Buy</th>
+						<td id="buy-1"><span class="sparkline"></span><span class="price"></span></td>
+						<td id="buy-2"><span class="sparkline"></span><span class="price"></span></td>
+						<td id="buy-3"><span class="sparkline"></span><span class="price"></span></td>
+						<td id="buy-4"><span class="sparkline"></span><span class="price"></span></td>
+					</tr>
+					
+					<tr>
+						<th>Rent</th>
+						<td id="rent-1"><span class="sparkline"></span><span class="price"></span></td>
+						<td id="rent-2"><span class="sparkline"></span><span class="price"></span></td>
+						<td id="rent-3"><span class="sparkline"></span><span class="price"></span></td>
+						<td id="rent-4"><span class="sparkline"></span><span class="price"></span></td>
+					</tr>
+				</tbody>
+			</table>										
+		</div>
+
 		<script src="http://maps.google.com/maps/api/js?sensor=false"></script> 
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.js"></script>
 		<script src="js/libs/underscore.js"></script>
