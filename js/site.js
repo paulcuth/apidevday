@@ -97,7 +97,7 @@
   }
   
   var markers = [];
-  function addMarker(lat, lng, lightbox_links){
+  function addMarker(venue_name, lat, lng, lightbox_links){
     var coords = {lat: lat, lng: lng};
     if(!_.find(markers, function(marker){
       return marker.lat === coords.lat && marker.lng === coords.lng;
@@ -105,7 +105,7 @@
       var marker = new google.maps.Marker({
           position: new google.maps.LatLng(lat, lng), 
           map: map, 
-          title:"Hello World!"
+          title: venue_name
       });
       
       google.maps.event.addListener(marker, 'click', function(){
@@ -171,10 +171,9 @@
                     links[links.length] = pic.url;
                   });
                 });
-
-                console.log(links);
                 
-                addMarker(ven.location.lat, ven.location.lng, links);
+                console.log(ven.name);
+                addMarker(ven.name, ven.location.lat, ven.location.lng, links);
               }
             });
           })
