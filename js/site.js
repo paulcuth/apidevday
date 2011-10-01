@@ -84,7 +84,7 @@
   }
   
   var markers = [];
-  function addMarker(lat, lng, lightbox_link){
+  function addMarker(lat, lng, lightbox_links){
     var coords = {lat: lat, lng: lng};
     if(!_.find(markers, function(marker){
       return marker.lat === coords.lat && marker.lng === coords.lng;
@@ -146,7 +146,15 @@
             FOURSQ.request_venue_photos(ven.id, function(venue_pic){
               // Add marker with pics
               if(venue_pic.summary !== "No photos"){
-                addMarker(ven.location.lat, ven.location.lng);
+                var links = [];
+                _.each(venue_pic.groups, function(pic_group){
+                  _.each(pic_group.items, function(pic){
+                    links[links.length] = pic.url;
+                  });
+                });
+                console.log(links);
+                
+                addMarker(ven.location.lat, ven.location.lng, links);
               }
             });
           })
