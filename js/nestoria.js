@@ -19,7 +19,6 @@ window.NESTORIA = (function($){
     var coords_param = coords[0] + ',' + coords[1],
     new_url = coords_url.replace('%coords', coords_param).replace('%radius', radius),
     data;
-    console.log(new_url);
     data = get_nest_data(new_url, function(nest_data, textStatus) {
       // Process nest_data
       latest_data = nest_data;

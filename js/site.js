@@ -19,8 +19,7 @@
 		map = new google.maps.Map (mapWrap, opts);
 		
 		google.maps.event.addListener (map, 'drag', function () {
-			var c = map.getCenter ();
-			getData (c.lat (), c.lng (), getRadius ());
+      // var c = map.getCenter ();
 		});
 		 
 		google.maps.event.addListener (map, 'dragend', function () {
@@ -28,15 +27,17 @@
 			saveMapPoint (c.lat (), c.lng ());
 			
 			// Draw circle overlay for the radius
+			getData (c.lat (), c.lng (), getRadius ());
 			drawRadius();
 		});
 
 		var c = map.getCenter ();
-		getData (c.lat (), c.lng (), getRadius ());
+		getData(c.lat(), c.lng());
 		
 		google.maps.event.addListener(map, 'zoom_changed', function(){
 		  console.log('zoom changed');
 		  getData();
+		  drawRadius();
 		})
 	}
 	
@@ -54,6 +55,9 @@
 		return kmPerPx [map.getZoom ()] * $('#map').width () / 2;
 	}
 	
+	function pxRadius2Km(radius){
+	  
+	}
 
   function narrowCoord(coord) {
     return Math.round(coord * 1000) / 1000;
@@ -71,7 +75,7 @@
       fillOpacity: 0.35,
       map: map,
       center: map.getCenter(),
-      radius: getRadius() * 1000
+      radius: getRadius() * 250
     };
     radius_overlay = new google.maps.Circle(options);
     radius_overlay.setMap(map);
@@ -98,7 +102,8 @@
     }
     
     if(changed){
-      NESTORIA.request_avg([last_lat, last_lng], getRadius() + 'km', function(data){
+      var radius = getRadius();
+      NESTORIA.request_avg([last_lat, last_lng], (radius / 4) + 'km', function(data){
         // Get average
         
         console.log(NESTORIA.get_avgs(false));
