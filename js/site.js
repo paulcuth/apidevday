@@ -14,7 +14,7 @@
 				center: loc,
 				mapTypeId: google.maps.MapTypeId.ROADMAP
 			},
-			mapWrap = $('#map').height ($(document).height () - 100)[0];
+			mapWrap = $('#map').height ($(document).height () - 108)[0];
 			
 		map = new google.maps.Map (mapWrap, opts);
 		
@@ -70,10 +70,10 @@
       radius_overlay.setMap(null);
     }
     var options = {
-      strokeColor: "#FF0000",
+      strokeColor: "rgba(255,0,0,.4)",
       strokeOpacity: 0.8,
       strokeWeight: 2,
-      fillColor: "hotpink",
+      fillColor: "rgba(255,0,0,.3)",
       fillOpacity: 0.35,
       map: map,
       center: map.getCenter(),
@@ -108,7 +108,23 @@
       NESTORIA.request_avg([last_lat, last_lng], (radius / 4) + 'km', function(data){
         // Get average
         
-        console.log(NESTORIA.get_avgs(false));
+        var buyData = NESTORIA.get_avgs(true),
+        	rentData = NESTORIA.get_avgs(false);
+
+		for (var i in buyData) {
+			var bedData = buyData[i];			
+			$('#buy-' + i + ' .sparkline').sparkline (bedData, { width: 80 });
+			$('#buy-' + i + ' .price').html ('&#163;' + Math.round (bedData[0] / 1000) + 'k');
+		}
+			
+		for (var i in rentData) {
+			var bedData = rentData[i];			
+			$('#rent-' + i + ' .sparkline').sparkline (bedData, { width: 80 });
+			$('#rent-' + i + ' .price').html ('&#163;' + bedData[0] + '<span class="unit">pcm</span>');
+		}
+			
+
+
       })
     }
 	}

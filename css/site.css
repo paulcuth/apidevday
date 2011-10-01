@@ -10,18 +10,26 @@
 
 	font-family: Georgia;
 	color: #444;
-	font-size: 16pt;
+	font-size: 14pt;
 	padding: 4px 8px;
+	background: url(../img/nestoria.png) 99% 93% no-repeat;
 }
 
 
 td {
-	width: 150px;
-	height: 30px;
+	width: 175px;
+	height: 35px;
+	font-size: 0.9em;
+	text-align: center;
 }
 
 
-th {
+table {
 	color: #444;
 }
 
+
+span.unit {
+	font-size: 0.75em;
+	opacity: .9;
+}
