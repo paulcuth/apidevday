@@ -125,9 +125,12 @@
       	}
       });
       
-      console.log(FOURSQ.token);
       if(FOURSQ.token){
-        FOURSQ.request_venues(coords);
+        FOURSQ.request_venues(coords, function(venues, group_name){
+          _.each(venues, function(ven){
+            FOURSQ.request_venue_photos(ven.id);
+          })
+        });
       }
     }  
 
