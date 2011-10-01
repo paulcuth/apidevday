@@ -82,6 +82,21 @@
     radius_overlay = new google.maps.Circle(options);
     radius_overlay.setMap(map);
   }
+  
+  var markers = [];
+  function addMarker(lat, lng, lightbox_link){
+    var coords = {lat: lat, lng: lng};
+    if(!_.find(markers, function(marker){
+      return marker.lat === coords.lat && marker.lng === coords.lng;
+    })) {
+      var marker = new google.maps.Marker({
+          position: new google.maps.LatLng(lat, lng), 
+          map: map, 
+          title:"Hello World!"
+      });
+      markers[markers.length] = coords;
+    }
+  }
 
 	function getData(lat, lng) {
 	  var changed = false;
@@ -128,7 +143,12 @@
       if(FOURSQ.token){
         FOURSQ.request_venues(coords, function(venues, group_name){
           _.each(venues, function(ven){
-            FOURSQ.request_venue_photos(ven.id);
+            FOURSQ.request_venue_photos(ven.id, function(venue_pic){
+              // Add marker with pics
+              if(venue_pic.summary !== "No photos"){
+                addMarker(ven.location.lat, ven.location.lng);
+              }
+            });
           })
         });
       }

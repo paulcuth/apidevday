@@ -24,15 +24,15 @@ window.FOURSQ = (function($){
     var coords_param = coords[0] + ',' + coords[1],
     new_url = venues_url.replace('%coords', coords_param);
     $.getJSON(new_url, {oauth_token: foursq.token}, function(data, textStatus) {
+      // console.log(data.response.groups[0].items);
       callback(data.response.groups[0].items, data.response.groups[0]['name']);
     });
   };
   
   foursq.request_venue_photos = function(venue_id, callback) {
     var new_url = venue_pic_url.replace('%id', venue_id);
-    // console.log(new_url);
     $.getJSON(new_url, {oauth_token: foursq.token}, function(data, textStatus) {
-      console.log(data);
+      callback(data.response.photos);
     });
   };
   
