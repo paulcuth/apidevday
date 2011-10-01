@@ -35,10 +35,12 @@
 		getData(c.lat(), c.lng());
 		
 		google.maps.event.addListener(map, 'zoom_changed', function(){
-		  console.log('zoom changed');
 		  getData();
 		  drawRadius();
 		})
+		
+		getData();
+	  drawRadius();
 	}
 	
 	
