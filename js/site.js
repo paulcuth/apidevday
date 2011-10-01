@@ -1,6 +1,7 @@
 (function () {
 	
-	var last_lat, last_lng;
+	var last_lat, last_lng,
+		map;
 	
 	function init () {
 		var lat = sessionStorage? sessionStorage['lat'] || 51.497977 : 51.497977,
@@ -11,19 +12,20 @@
 				center: loc,
 				mapTypeId: google.maps.MapTypeId.ROADMAP
 			},
-			mapWrap = $('#map').height ($(document).height () - 150)[0],
-			map = new google.maps.Map (mapWrap, opts);
+			mapWrap = $('#map').height ($(document).height () - 150)[0];
+			
+		map = new google.maps.Map (mapWrap, opts);
 		
 		google.maps.event.addListener (map, 'drag', function () {
 			var c = map.getCenter ();
-			getData (c.lat (), c.lng ());
+			getData (Math.floor (c.lat () * 1000000) / 1000000, Math.floor (c.lng () * 1000000) / 1000000, getRadius ());
 		});
 		 
 		google.maps.event.addListener (map, 'dragend', function () {
 			var c = map.getCenter ();
 			saveMapPoint (c.lat (), c.lng ());
 		});
-		 
+
 	}
 	
 	
@@ -33,6 +35,13 @@
 			sessionStorage['lng'] = lng;
 		}
 	}
+	
+	
+	function getRadius () {
+		var kmPerPx = [157, 78, 39, 19.6, 9.8, 4.9, 2.4, 1.2, .611, .306, .153, .076, .039, .019, .010, .005, .0024, .0012, .0006, .0003, .00015, .000075, .000037, .000019, .0000093];
+		return kmPerPx [map.getZoom ()] * $('#map').width () / 2;
+	}
+	
 
   function narrowCoord(coord) {
     return Math.round(coord * 1000) / 1000;
