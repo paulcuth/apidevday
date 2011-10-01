@@ -53,8 +53,9 @@
     }
     
     if(changed){
-      NESTORIA.get_avg([last_lat, last_lng], function(data){
-        console.log(data);
+      NESTORIA.request_avg([last_lat, last_lng], '10km', function(data){
+        // Get average
+        console.log(NESTORIA.get_avgs(false));
       })
     }
 
