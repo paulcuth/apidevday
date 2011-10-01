@@ -16,7 +16,7 @@
 		
 		google.maps.event.addListener (map, 'drag', function () {
 			var c = map.getCenter ();
-			getData (c.lat (), c.lng ());
+			getData (Math.floor (c.lat () * 1000000) / 1000000, Math.floor (c.lng () * 1000000) / 1000000);
 		});
 		 
 		google.maps.event.addListener (map, 'dragend', function () {
